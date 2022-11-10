@@ -1,16 +1,16 @@
 // process.stdout.write("prompt > ");
+let done = require("./bash");
 
 const fs = require("fs");
-module.exports = function () {
+module.exports = function (done) {
   process.stdin.on("data", (data) => {
     const cmd = data.toString().trim();
     if (cmd == "ls") {
       fs.readdir(process.cwd().toString(), (err, files) => {
         if (err) {
-          throw err;
+          done("Something went wrong");
         } else {
-          process.stdout.write(files.join("\n"));
-          process.stdout.write("\nprompt > ");
+          done(files.join("\n"));
         }
       });
     }
